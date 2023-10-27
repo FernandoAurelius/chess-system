@@ -16,10 +16,10 @@ public class UI {
 	}
 	
 	public static void printPiece(ChessPiece piece) {
-		if (piece == null ) {
-			System.out.print("-");
-		} else {
+		if (piece != null) {
 			System.out.print(piece);
+		} else {
+			System.out.print("-");
 		}
 		System.out.print(" ");
 	}
