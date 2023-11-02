@@ -49,10 +49,13 @@ public class ChessMatch {
 		Position source = sourcePosition.toPosition();
 		Position target = targetPosition.toPosition();
 		
-		/* Valida se a posição de origem é válida (se existe uma peça e, 
+		/* Valida a posição de origem (se existe uma peça e, 
 		 * se existir, se a peça possui movimentos possíveis
 		 */
 		validateSourcePosition(source);
+		
+		// Valida a posição de destino
+		validateTargetPosition(source, target);
 		
 		// Realiza o movimento de Xadrez da peça de origem e retorna a peça capturada durante o movimento
 		Piece capturedPiece = makeMove(source, target);
@@ -93,6 +96,14 @@ public class ChessMatch {
 		}
 	}
 	
+	/* Valida a posição de destino escolhida,
+	 * Caso a posição de origem da peça escolhida não possua um movimento possível que inclua a posição de destino
+	 */
+	private void validateTargetPosition(Position source, Position target) {
+		if (!board.piece(source).possibleMove(target)) {
+			throw new ChessException("A peça escolhida não pode se mover para a posição de destino");
+		}
+	}	
 	// Método que coloca uma peça numa posição do tabuleiro, recebendo a peça, a linha e a coluna
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		

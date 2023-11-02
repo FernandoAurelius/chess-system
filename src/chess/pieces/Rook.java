@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import boardgame.Board;
+import boardgame.Position;
 import chess.ChessPiece;
 import chess.Color;
 
@@ -25,8 +26,50 @@ public class Rook extends ChessPiece {
 			// Matriz booleana de mesmas dimensões do tabuleiro (inicialmente recebe falso por padrão)
 			boolean mat[][] = new boolean[getBoard().getRows()][getBoard().getColumns()];
 			
-			/* A Torre provisóriamente não terá movimentos possíveis, 
-			mas o método já foi implementado para não haver erros no corpo do código */
+			Position p = new Position(0, 0);
+			
+			// Verifica se há uma peça acima da Torre
+			p.setValues(position.getRow() - 1, position.getColumn());
+			while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+				mat[p.getRow()][p.getColumn()] = true;
+				p.setRow(p.getRow() - 1);
+			}
+			
+			// Verifica se a peça acima da Torre é inimiga
+			if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+				mat[p.getRow()][p.getColumn()] = true;
+			}
+			
+			// Verifica se há uma peça à esquerda da Torre
+			p.setValues(position.getRow(), position.getColumn() - 1);
+			while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+				mat[p.getRow()][p.getColumn()] = true;
+				p.setColumn(p.getColumn() - 1);
+			}
+			if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+				mat[p.getRow()][p.getColumn()] = true;
+			}
+			
+			// Verifica se há uma peça à direita da Torre
+			p.setValues(position.getRow(), position.getColumn() + 1);
+			while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+				mat[p.getRow()][p.getColumn()] = true;
+				p.setColumn(p.getColumn() + 1);
+			}
+			if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+				mat[p.getRow()][p.getColumn()] = true;
+			}
+			
+			// Verifica se há uma peça abaixo da Torre
+			p.setValues(position.getRow() + 1, position.getColumn());
+			while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+				mat[p.getRow()][p.getColumn()] = true;
+				p.setRow(p.getRow() + 1);
+			}
+			if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+				mat[p.getRow()][p.getColumn()] = true;
+			}
+			
 			return mat;
 		}
 }

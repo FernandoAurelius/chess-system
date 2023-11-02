@@ -26,8 +26,17 @@ public class Position {
 		this.column = column;
 	}
 	
+	// Método para definir o valor de ambas linha e coluna 
+	public void setValues (int row, int column) {
+		this.row = row;
+		this.column = column;
+	}
+	
+	
+	// Método toString simples pra retornar a linha concatenada com um espaço em branco e a coluna da posição
 	@Override
 	public String toString() {
 		return row + ", " + column;
-	}	
+	}
+	
 }
