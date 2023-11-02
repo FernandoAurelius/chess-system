@@ -23,14 +23,17 @@ public class ChessPosition {
 		return row;
 	}
 
+	// Método para transformar uma posição de Xadrez em posição de matriz
 	protected Position toPosition() {
 		return new Position(8 - row, column - 'a');
 	}
 	
+	// Método para transformar uma posição de matriz em posição de Xadrez
 	protected static ChessPosition fromPosition(Position position) {
 		return new ChessPosition((char)('a' - position.getColumn()), 8 - position.getRow());
 	}
 	
+	// Método toString básico retornando uma concatenação entre a coluna e a fileira
 	@Override
 	public String toString() {
 		return "" + column + row;

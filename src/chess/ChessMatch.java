@@ -38,6 +38,12 @@ public class ChessMatch {
 		return mat;
 	}
 	
+	// Imprime os movimentos possíveis de uma peça dada uma posição de Xadrez
+	public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+		Position position = sourcePosition.toPosition();
+		validateSourcePosition(position);
+		return board.piece(position).possibleMoves();
+	}	
 	/* Realiza um movimento de Xadrez e retorna a posição capturada durante o movimento
 	 * Recebe uma posição de origem e destino do tipo "ChessPosition"
 	 */
@@ -97,7 +103,8 @@ public class ChessMatch {
 	}
 	
 	/* Valida a posição de destino escolhida,
-	 * Caso a posição de origem da peça escolhida não possua um movimento possível que inclua a posição de destino
+	 * Caso a posição de origem da peça escolhida não possua um movimento possível, 
+	 * que inclua a posição de destino
 	 */
 	private void validateTargetPosition(Position source, Position target) {
 		if (!board.piece(source).possibleMove(target)) {

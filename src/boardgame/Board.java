@@ -23,6 +23,7 @@ public class Board {
 		return columns;
 	}
 	
+	// Método para colocar uma peça na matriz de peças do tabuleiro
 	public Piece piece(int row, int column) {
 		if (!positionExists(row, column)) {
 			throw new BoardException("Posição fora do tabuleiro!");
@@ -30,6 +31,7 @@ public class Board {
 		return pieces[row][column];
 	}
 	
+	// Sobrecarga do método para colocar uma peça na matriz de peças, recebendo uma posição
 	public Piece piece (Position position) {
 		if (!positionExists(position)) {
 			throw new BoardException("Posição fora do tabuleiro!");
@@ -37,6 +39,7 @@ public class Board {
 		return pieces[position.getRow()][position.getColumn()];
 	}
 	
+	// Método para colocar uma peça no tabuleiro, recebendo a peça e a posição, e armazenando-as na matriz
 	public void placePiece(Piece piece, Position position) {
 		if (thereIsAPiece(position)) {
 			throw new BoardException("Já existe uma peça na posição: " + position);
@@ -45,14 +48,20 @@ public class Board {
 		piece.position = position;
 	}
 	
+	/* Método para verificar se uma posição existe
+	 * Recebe linha e coluna
+	 * Retorna verdadeiro se ambas linha e coluna estão dentro das dimensões do tabuleiro
+	 */
 	private boolean positionExists(int row, int column) {
 		return row >= 0 && row < rows && column >= 0 && column < columns;
 	}
 	
+	// Sobrecarga do método de verificação de posição, recebendo uma posição
 	public boolean positionExists(Position position) {
 		return positionExists(position.getRow(), position.getColumn());
 	}
 	
+	// Método para verificar a existência de uma peça em uma posição dada
 	public boolean thereIsAPiece(Position position) {
 		if (!positionExists(position)) {
 			throw new BoardException("Posição fora do tabuleiro!");
@@ -60,6 +69,7 @@ public class Board {
 		return piece(position) != null;
 	}
 	
+	// Método para remover uma peça de uma posição dada
 	public Piece removePiece(Position position) {
 		if (!positionExists(position)) {
 			throw new BoardException("Posição fora do tabuleiro!");
