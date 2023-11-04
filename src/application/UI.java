@@ -1,7 +1,10 @@
 package application;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import chess.ChessMatch;
 import chess.ChessPiece;
@@ -37,6 +40,7 @@ public class UI {
 	public static void clearScreen() {
 	 System.out.print("\033[H\033[2J");
 	 System.out.flush();
+	 System.out.print(ANSI_BLACK);
 	} 
 	
 	/* Método para ler uma posição de Xadrez
@@ -44,6 +48,7 @@ public class UI {
 	 */
 	public static ChessPosition readChessPosition(Scanner sc) {
 		try {
+			System.out.print(ANSI_BLACK);
 			String s = sc.nextLine();
 			char column = s.charAt(0);
 			int row = Integer.parseInt(s.substring(1));
@@ -54,11 +59,14 @@ public class UI {
 		}
 	}
 	
-	public static void printMatch(ChessMatch chessMatch) {
+	// Método que imprime o tabuleiro e as informações da partida 
+	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 		printBoard(chessMatch.getPieces());
 		System.out.println();
-		System.out.println("Turno: " + chessMatch.getTurn());
-		System.out.println("Esperando jogador: " + chessMatch.getCurrentPlayer());
+		printCapturedPieces(captured);
+		System.out.println();
+		System.out.println(ANSI_BLACK + "Turno: " + chessMatch.getTurn());
+		System.out.println(ANSI_BLACK + "Esperando jogador: " + chessMatch.getCurrentPlayer());
 	}
 	
 	/* Imprime o tabuleiro de xadrez no console. 
@@ -66,13 +74,13 @@ public class UI {
 	*/
 	public static void printBoard(ChessPiece[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
-			System.out.print(ANSI_BLUE + (8 - i) + " ");
+			System.out.print(ANSI_BLUE + (8 - i) + " " + ANSI_BLACK);
 			for (int j = 0; j < pieces.length; j++) {
 				printPiece(pieces[i][j], false);
 			}
 			System.out.println();
 		}
-		System.out.println(ANSI_BLUE + ("  a b c d e f g h"));
+		System.out.println(ANSI_BLUE + ("  a b c d e f g h" + ANSI_BLACK));
 	}
 	
 	/* Sobrecarga do método de impressão do tabuleiro
@@ -80,13 +88,13 @@ public class UI {
 	 */
 	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
 		for (int i = 0; i < pieces.length; i++) {
-			System.out.print(ANSI_BLUE + (8 - i) + " ");
+			System.out.print(ANSI_BLUE + (8 - i) + " " + ANSI_BLACK);
 			for (int j = 0; j < pieces.length; j++) {
 				printPiece(pieces[i][j], possibleMoves[i][j]);
 			}
 			System.out.println();
 		}
-		System.out.println(ANSI_BLUE + ("  a b c d e f g h"));
+		System.out.println(ANSI_BLUE + ("  a b c d e f g h" + ANSI_BLACK));
 	}
 	
 	/* Imprime uma peça de xadrez no console. 
@@ -111,6 +119,18 @@ public class UI {
             }
         }
         System.out.print(" ");
+	}
+	
+	private static void printCapturedPieces(List<ChessPiece> captured) {
+		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.BRANCO).collect(Collectors.toList());
+		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.PRETO).collect(Collectors.toList());
+		
+		System.out.println(ANSI_BLACK + "Peças capturadas:");
+		System.out.print(ANSI_BLACK + "Brancas: ");
+		System.out.println(ANSI_WHITE + Arrays.toString(white.toArray()) + ANSI_RESET);
+		
+		System.out.print(ANSI_BLACK + "Pretas: ");
+		System.out.println(ANSI_BLACK + Arrays.toString(black.toArray()) + ANSI_RESET);
 	}
 	
 }
