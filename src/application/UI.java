@@ -3,6 +3,7 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -53,6 +54,13 @@ public class UI {
 		}
 	}
 	
+	public static void printMatch(ChessMatch chessMatch) {
+		printBoard(chessMatch.getPieces());
+		System.out.println();
+		System.out.println("Turno: " + chessMatch.getTurn());
+		System.out.println("Esperando jogador: " + chessMatch.getCurrentPlayer());
+	}
+	
 	/* Imprime o tabuleiro de xadrez no console. 
 	* Percorre todas as linhas e colunas do tabuleiro e imprime a peça na posição atual.
 	*/
@@ -95,7 +103,7 @@ public class UI {
             System.out.print(ANSI_BLACK + ("-") + ANSI_RESET);
         }
         else {
-            if (piece.getColor() == Color.WHITE) {
+            if (piece.getColor() == Color.BRANCO) {
                 System.out.print(ANSI_WHITE + piece + ANSI_RESET);
             }
             else {
