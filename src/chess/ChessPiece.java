@@ -7,6 +7,7 @@ import boardgame.Position;
 public abstract class ChessPiece extends Piece {
 
 	private Color color;
+	private int moveCount;
 
 	public ChessPiece(Board board, Color color) {
 		super(board);
@@ -17,6 +18,21 @@ public abstract class ChessPiece extends Piece {
 		return color;
 	}
 	
+	public int getMoveCount() {
+		return moveCount;
+	}
+	
+	// Método que incrementa o valor da variável "moveCount" (contador de movimento)
+	public void increaseMoveCount() {
+		moveCount++;
+	}
+	
+	// Método decrementa o valor da variável "moveCount" (contador de movimento)
+	public void decreaseMoveCount() {
+		moveCount--;
+	}
+	
+	// Método que retorna retorna uma posição de Xadrezde uma peça de uma posição de matriz
 	public ChessPosition getChessPosition() {
 		return ChessPosition.fromPosition(position);
 	}

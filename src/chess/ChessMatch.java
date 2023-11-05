@@ -113,7 +113,6 @@ public class ChessMatch {
 		
 		// Testa se o movimento realizado pelo jogador deixou o oponente em xeque
 		check = (testCheck(opponent(currentPlayer))) ? true : false;
-		
 		nextTurn();
 		return (ChessPiece)capturedPiece;
 	}
@@ -122,7 +121,8 @@ public class ChessMatch {
 	private Piece makeMove(Position source, Position target) {
 		
 		// Remove a peça que irá ser movida da posição de origem através do método "removePiece"
-		Piece p = board.removePiece(source);
+		ChessPiece p = (ChessPiece)board.removePiece(source);
+		p.increaseMoveCount();
 		
 		// Remove a peça que será capturada da posição de destino através do mesmo método
 		Piece capturedPiece = board.removePiece(target);
@@ -141,7 +141,9 @@ public class ChessMatch {
 	
 	// Método auxiliar para a lógica de xeque, desfaz um movimento já realizado
 	private void undoMove(Position source, Position target, Piece capturedPiece){
-		Piece p = board.removePiece(target);
+		ChessPiece p = (ChessPiece)board.removePiece(target);
+		p.decreaseMoveCount();
+		
 		board.placePiece(p, source);
 		
 		if (capturedPiece != null) {
