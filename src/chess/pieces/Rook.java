@@ -20,7 +20,7 @@ public class Rook extends ChessPiece {
 	}
 
 	@Override
-	// Método provisório que receberá a lógica do movimento da Torre no Xadrez
+	// Método que receberá a lógica do movimento da Torre no Xadrez
 		public boolean[][] possibleMoves() {
 			
 			// Matriz booleana de mesmas dimensões do tabuleiro (inicialmente recebe falso por padrão)
