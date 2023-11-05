@@ -67,6 +67,9 @@ public class UI {
 		System.out.println();
 		System.out.println(ANSI_BLACK + "Turno: " + chessMatch.getTurn());
 		System.out.println(ANSI_BLACK + "Esperando jogador: " + chessMatch.getCurrentPlayer());
+		if (chessMatch.getCheck()) {
+			System.out.println(chessMatch.getCurrentPlayer() + " ESTá EM XEQUE!");
+		}
 	}
 	
 	/* Imprime o tabuleiro de xadrez no console. 

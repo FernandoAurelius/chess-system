@@ -30,7 +30,7 @@ public class ChessPosition {
 	
 	// Método para transformar uma posição de matriz em posição de Xadrez
 	protected static ChessPosition fromPosition(Position position) {
-		return new ChessPosition((char)('a' - position.getColumn()), 8 - position.getRow());
+		return new ChessPosition((char)('a' + position.getColumn()), 8 - position.getRow());
 	}
 	
 	// Método toString básico retornando uma concatenação entre a coluna e a fileira

@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import boardgame.Board;
 import boardgame.Piece;
@@ -14,6 +15,7 @@ public class ChessMatch {
 	private int turn;
 	private Color currentPlayer;
 	private Board board;
+	private boolean check;
 	
 	private List<Piece> piecesOnTheBoard = new ArrayList<>();
 	private List<Piece> capturedPieces = new ArrayList<>();
@@ -35,6 +37,10 @@ public class ChessMatch {
 	
 	public Color getCurrentPlayer() {
 		return currentPlayer;
+	}
+	
+	public boolean getCheck() {
+		return check;
 	}
 	
 	// Método de implementação inicial do tabuleiro que retorna uma matriz de peças de Xadrez
@@ -84,6 +90,16 @@ public class ChessMatch {
 		
 		// Realiza o movimento de Xadrez da peça de origem e retorna a peça capturada durante o movimento
 		Piece capturedPiece = makeMove(source, target);
+		
+		// Testa se o movimento realizado pelo jogador o deixou em xeque
+		if (testCheck(currentPlayer)) {
+			undoMove(source, target, capturedPiece);
+			throw new ChessException("Você não pode se colocar em xeque!");
+		}
+		
+		// Testa se o movimento realizado pelo jogador deixou o oponente em xeque
+		check = (testCheck(opponent(currentPlayer))) ? true : false;
+		
 		nextTurn();
 		return (ChessPiece)capturedPiece;
 	}
@@ -108,6 +124,18 @@ public class ChessMatch {
 		// Retorna a peça capturada
 		return capturedPiece;
 	}
+	
+	// Método auxiliar para a lógica de xeque, desfaz um movimento já realizado
+	private void undoMove(Position source, Position target, Piece capturedPiece){
+		Piece p = board.removePiece(target);
+		board.placePiece(p, source);
+		
+		if (capturedPiece != null) {
+			board.placePiece(capturedPiece, target);
+			capturedPieces.remove(capturedPiece);
+			piecesOnTheBoard.add(capturedPiece);
+		}
+	}	
 	
 	/* Método de validação de posições de origem no tabuleiro. 
 	 * Também valida os movimentos possíveis de uma peça
@@ -146,6 +174,34 @@ public class ChessMatch {
 	private void nextTurn() {
 		turn++;
 		currentPlayer = (currentPlayer == Color.BRANCO) ? Color.PRETO : Color.BRANCO;
+	}
+	
+	private Color opponent(Color color) {
+		return (color == Color.BRANCO ? Color.PRETO : Color.BRANCO);
+	}
+	
+	// Método que percorre a lista de peças de um jogo de Xadrez e localiza o Rei de determinada cor
+	private ChessPiece king(Color color) {
+		List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
+		for (Piece p : list) {
+			if (p instanceof King) {
+				return (ChessPiece)p;
+			}
+		}
+		throw new IllegalStateException("Não existe rei " + color + "no tabuleiro!");
+	}
+	
+	// Testa se um movimento possível de uma peça adversária cai na casa do Rei, o que seria o xeque
+	private boolean testCheck(Color color) {
+		Position kingPosition = king(color).getChessPosition().toPosition();
+		List<Piece> opponentPieces = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == opponent(color)).collect(Collectors.toList());
+		for (Piece p : opponentPieces) {
+			boolean[][] mat = p.possibleMoves();
+			if (mat[kingPosition.getRow()][kingPosition.getColumn()]) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	// Método que coloca uma peça numa posição do tabuleiro, recebendo a peça, a linha e a coluna
