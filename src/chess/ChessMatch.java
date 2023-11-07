@@ -1,6 +1,5 @@
 package chess;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -150,12 +149,13 @@ public class ChessMatch {
 		return (ChessPiece)capturedPiece;
 	}
 	
+	// Método para trocar um peão promovido para a peça desejada
 	public ChessPiece replacePromotedPiece(String type) {
 		if (promoted == null) {
 			throw new IllegalStateException("Não há peça para ser promovida");
 		}
 		if (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("D")) {
-			throw new InvalidParameterException("Invalid type for promotion");
+			return promoted;
 		}
 		
 		Position pos = promoted.getChessPosition().toPosition();
@@ -169,6 +169,7 @@ public class ChessMatch {
 		return newPiece;
 	}
 	
+	// Método auxiliar de "replacePromotedPiece" que instancia a nova peça desejada durante a promoção
 	private ChessPiece newPiece(String type, Color color) {
 		if (type.equals("B")) return new Bishop(board, color);
 		if (type.equals("C")) return new Knight(board, color);

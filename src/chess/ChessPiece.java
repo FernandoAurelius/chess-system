@@ -23,12 +23,12 @@ public abstract class ChessPiece extends Piece {
 	}
 	
 	// Método que incrementa o valor da variável "moveCount" (contador de movimento)
-	public void increaseMoveCount() {
+	protected void increaseMoveCount() {
 		moveCount++;
 	}
 	
 	// Método decrementa o valor da variável "moveCount" (contador de movimento)
-	public void decreaseMoveCount() {
+	protected void decreaseMoveCount() {
 		moveCount--;
 	}
 	
