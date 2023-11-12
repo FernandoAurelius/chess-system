@@ -40,7 +40,7 @@ public class UI {
 	public static void clearScreen() {
 	 System.out.print("\033[H\033[2J");
 	 System.out.flush();
-	 System.out.print(ANSI_BLACK);
+	 System.out.print(ANSI_WHITE);
 	} 
 	
 	/* Método para ler uma posição de Xadrez
@@ -48,7 +48,7 @@ public class UI {
 	 */
 	public static ChessPosition readChessPosition(Scanner sc) {
 		try {
-			System.out.print(ANSI_BLACK);
+			System.out.print(ANSI_WHITE);
 			String s = sc.nextLine();
 			char column = s.charAt(0);
 			int row = Integer.parseInt(s.substring(1));
@@ -65,10 +65,10 @@ public class UI {
 		System.out.println();
 		printCapturedPieces(captured);
 		System.out.println();
-		System.out.println(ANSI_BLACK + "Turno: " + chessMatch.getTurn());
+		System.out.println(ANSI_WHITE + "Turno: " + chessMatch.getTurn());
 		
 		if (!chessMatch.getCheckMate()) {
-			System.out.println(ANSI_BLACK + "Esperando jogador: " + chessMatch.getCurrentPlayer());
+			System.out.println(ANSI_WHITE + "Esperando jogador: " + chessMatch.getCurrentPlayer());
 			if (chessMatch.getCheck()) { 
 				System.out.println(chessMatch.getCurrentPlayer() + " ESTá EM XEQUE!");
 			}
@@ -83,13 +83,13 @@ public class UI {
 	*/
 	public static void printBoard(ChessPiece[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
-			System.out.print(ANSI_BLUE + (8 - i) + " " + ANSI_BLACK);
+			System.out.print(ANSI_BLUE + (8 - i) + " " + ANSI_WHITE);
 			for (int j = 0; j < pieces.length; j++) {
 				printPiece(pieces[i][j], false);
 			}
 			System.out.println();
 		}
-		System.out.println(ANSI_BLUE + ("  a b c d e f g h" + ANSI_BLACK));
+		System.out.println(ANSI_BLUE + ("  a b c d e f g h" + ANSI_WHITE));
 	}
 	
 	/* Sobrecarga do método de impressão do tabuleiro
@@ -97,13 +97,13 @@ public class UI {
 	 */
 	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
 		for (int i = 0; i < pieces.length; i++) {
-			System.out.print(ANSI_BLUE + (8 - i) + " " + ANSI_BLACK);
+			System.out.print(ANSI_BLUE + (8 - i) + " " + ANSI_WHITE);
 			for (int j = 0; j < pieces.length; j++) {
 				printPiece(pieces[i][j], possibleMoves[i][j]);
 			}
 			System.out.println();
 		}
-		System.out.println(ANSI_BLUE + ("  a b c d e f g h" + ANSI_BLACK));
+		System.out.println(ANSI_BLUE + ("  a b c d e f g h" + ANSI_WHITE));
 	}
 	
 	/* Imprime uma peça de xadrez no console. 
@@ -117,14 +117,14 @@ public class UI {
 			System.out.print(ANSI_GREEN_BACKGROUND);
 		}
     	if (piece == null) {
-            System.out.print(ANSI_BLACK + ("-") + ANSI_RESET);
+            System.out.print(ANSI_WHITE + ("-") + ANSI_RESET);
         }
         else {
             if (piece.getColor() == Color.BRANCO) {
                 System.out.print(ANSI_WHITE + piece + ANSI_RESET);
             }
             else {
-                System.out.print(ANSI_BLACK + piece + ANSI_RESET);
+                System.out.print(ANSI_CYAN + piece + ANSI_RESET);
             }
         }
         System.out.print(" ");
@@ -134,12 +134,12 @@ public class UI {
 		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.BRANCO).collect(Collectors.toList());
 		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.PRETO).collect(Collectors.toList());
 		
-		System.out.println(ANSI_BLACK + "Peças capturadas:");
-		System.out.print(ANSI_BLACK + "Brancas: ");
+		System.out.println(ANSI_WHITE + "Peças capturadas:");
+		System.out.print(ANSI_WHITE + "Brancas: ");
 		System.out.println(ANSI_WHITE + Arrays.toString(white.toArray()) + ANSI_RESET);
 		
-		System.out.print(ANSI_BLACK + "Pretas: ");
-		System.out.println(ANSI_BLACK + Arrays.toString(black.toArray()) + ANSI_RESET);
+		System.out.print(ANSI_WHITE + "Pretas: ");
+		System.out.println(ANSI_WHITE + Arrays.toString(black.toArray()) + ANSI_RESET);
 	}
 	
 }
